@@ -308,11 +308,10 @@
          * Uses localStorage to simulate a backend DB containing user accounts.
          */
         const DB_KEY = 'diamondSuite_UsersDB';
-        const SESSION_KEY = 'diamondSuite_ActiveSession';
         
         let usersDB = JSON.parse(localStorage.getItem(DB_KEY)) || {};
         let activeUserEmail = null;
-        let state = {}; // Holds the active user's specific game data
+        let state = {}; 
 
         const defaultState = {
             displayName: "New VIP",
@@ -324,15 +323,11 @@
             history: []
         };
 
-        // --- INIT ---
+        // --- HARD INIT (Force Gateway) ---
         window.onload = () => {
-            // Check if user is already logged in from a previous session
-            const savedSession = sessionStorage.getItem(SESSION_KEY);
-            if (savedSession && usersDB[savedSession]) {
-                activeUserEmail = savedSession;
-                loadUserData();
-                showApp();
-            }
+            // Explicitly force the UI states so the gateway is always shown first
+            document.getElementById('auth-gateway').style.display = 'flex';
+            document.getElementById('app-wrapper').style.display = 'none';
         };
 
         // --- AUTH LOGIC ---
@@ -349,16 +344,14 @@
             if (!email || !password) return alert("Please fill out all fields.");
             if (usersDB[email]) return alert("An account with this email already exists.");
 
-            // Create new user in Mock DB
             usersDB[email] = {
-                password: password, // Note: Plaintext used ONLY for client-side mock simulation
+                password: password, 
                 gameData: JSON.parse(JSON.stringify(defaultState))
             };
             saveDB();
             
             alert("VIP Account created successfully! Logging you in...");
             activeUserEmail = email;
-            sessionStorage.setItem(SESSION_KEY, email);
             loadUserData();
             showApp();
         }
@@ -375,19 +368,21 @@
             }
 
             activeUserEmail = email;
-            sessionStorage.setItem(SESSION_KEY, email); // Keep logged in for this tab session
             loadUserData();
             showApp();
         }
 
         function handleLogout() {
-            saveStateToDB(); // Final save
+            saveStateToDB(); 
             activeUserEmail = null;
             state = {};
-            sessionStorage.removeItem(SESSION_KEY);
             
-            // Clear inputs & toggle views
+            // Clear inputs & toggle views strictly back to Gateway
             document.getElementById('login-password').value = '';
+            document.getElementById('login-email').value = '';
+            document.getElementById('reg-password').value = '';
+            document.getElementById('reg-email').value = '';
+            
             document.getElementById('app-wrapper').style.display = 'none';
             document.getElementById('auth-gateway').style.display = 'flex';
         }
@@ -501,7 +496,7 @@
         }
 
         // ==========================================
-        // GAME LOGIC (Roulette, Blackjack, Poker)
+        // GAME LOGIC
         // ==========================================
         function getRouletteBet() {
             const base = parseInt(document.getElementById('r-base-bet').value);
