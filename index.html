@@ -44,12 +44,8 @@
         }
 
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            border-bottom: 1px solid var(--neon-purple);
-            padding-bottom: 16px;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 24px; border-bottom: 1px solid var(--neon-purple); padding-bottom: 16px;
         }
 
         h1, h2, h3 { margin: 0; font-weight: 600; }
@@ -58,125 +54,67 @@
         h2 { color: var(--neon-purple); font-size: 1.2rem; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 2px; }
 
         /* === NAVIGATION & PROFILE === */
-        .header-controls {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .nav-tabs {
-            display: flex;
-            gap: 10px;
-        }
+        .header-controls { display: flex; align-items: center; gap: 20px; }
+        .nav-tabs { display: flex; gap: 10px; }
 
         .tab-btn {
-            background: rgba(0,0,0,0.4);
-            border: 1px solid var(--gold-dim);
-            color: var(--text-muted);
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-weight: bold;
+            background: rgba(0,0,0,0.4); border: 1px solid var(--gold-dim); color: var(--text-muted);
+            padding: 8px 16px; border-radius: 8px; cursor: pointer; transition: all 0.2s; font-weight: bold;
         }
-        .tab-btn.active {
-            background: var(--neon-purple);
-            color: white;
-            border-color: var(--gold);
-            box-shadow: 0 0 15px var(--purple-glow);
-        }
-        .tab-btn:hover:not(.active) {
-            background: rgba(255,255,255,0.05);
-            color: var(--text-main);
-        }
+        .tab-btn.active { background: var(--neon-purple); color: white; border-color: var(--gold); box-shadow: 0 0 15px var(--purple-glow); }
+        .tab-btn:hover:not(.active) { background: rgba(255,255,255,0.05); color: var(--text-main); }
 
         .profile-card {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(0,0,0,0.4);
-            padding: 8px 16px;
-            border-radius: 8px;
-            border-right: 4px solid var(--gold);
+            display: flex; align-items: center; gap: 12px; background: rgba(0,0,0,0.4);
+            padding: 8px 16px; border-radius: 8px; border-right: 4px solid var(--gold);
         }
         .profile-info { text-align: right; }
         .profile-name { color: var(--gold); font-weight: bold; font-size: 1.1rem; }
         .profile-id { color: var(--text-muted); font-size: 0.8rem; letter-spacing: 1px; }
         .bankroll-display { font-size: 1.2rem; color: var(--success); font-weight: bold; margin-top: 4px;}
 
-        /* === GRID SYSTEM === */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 24px;
-        }
-
-        /* === VIEW ROUTING === */
+        /* === GRID SYSTEM & ROUTING === */
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; }
         .view-section { display: none; animation: fadeIn 0.3s ease; }
         .view-section.active { display: block; }
+        .account-subview { display: none; animation: fadeIn 0.2s ease; }
+        .account-subview.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* === CONTROLS === */
         .input-group { margin-bottom: 16px; }
         label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase;}
-        
         select, input {
-            width: 100%;
-            background: rgba(0,0,0,0.5);
-            border: 1px solid var(--gold-dim);
-            color: var(--text-main);
-            padding: 10px 12px;
-            border-radius: 8px;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s;
-            box-sizing: border-box;
+            width: 100%; background: rgba(0,0,0,0.5); border: 1px solid var(--gold-dim); color: var(--text-main);
+            padding: 10px 12px; border-radius: 8px; font-size: 1rem; outline: none; transition: border-color 0.2s; box-sizing: border-box;
         }
         select:focus, input:focus { border-color: var(--neon-purple); }
 
         .btn-row { display: flex; gap: 12px; }
         button {
-            flex: 1;
-            background: linear-gradient(145deg, #1e1e24, #15151a);
-            color: var(--text-main);
-            border: 1px solid var(--gold-dim);
-            padding: 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1rem;
-            transition: all 0.2s ease;
+            flex: 1; background: linear-gradient(145deg, #1e1e24, #15151a); color: var(--text-main);
+            border: 1px solid var(--gold-dim); padding: 12px; border-radius: 8px; cursor: pointer;
+            font-weight: bold; font-size: 1rem; transition: all 0.2s ease;
         }
-        button:hover {
-            border-color: var(--gold);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px var(--purple-glow);
-        }
+        button:hover { border-color: var(--gold); transform: translateY(-2px); box-shadow: 0 4px 12px var(--purple-glow); }
         button.btn-win { border-color: var(--success); color: var(--success); }
         button.btn-loss { border-color: var(--danger); color: var(--danger); }
         button.btn-action { background: var(--neon-purple); color: white; border-color: var(--gold); }
+        button.btn-text { background: transparent; border-color: var(--gold-dim); color: var(--gold); font-size: 0.8rem; padding: 6px 12px;}
+        button.btn-text:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--gold); }
         
         /* === DATA DISPLAYS & TABLES === */
-        .data-box {
-            background: rgba(0,0,0,0.3);
-            border-radius: 8px;
-            padding: 12px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
+        .data-box { background: rgba(0,0,0,0.3); border-radius: 8px; padding: 12px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
         .data-value { font-size: 1.5rem; font-weight: bold; color: var(--gold); margin-top: 4px; }
         .data-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-
         .alert-box { padding: 10px; border-radius: 8px; font-weight: bold; font-size: 0.9rem; text-align: center; margin-bottom: 16px; display: none; }
         .alert-danger { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid var(--danger); }
         .alert-warning { background: rgba(212, 175, 55, 0.1); color: var(--gold); border: 1px solid var(--gold); }
 
-        /* Range Slider Styling */
         input[type=range] { -webkit-appearance: none; background: transparent; padding: 0; }
         input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; }
         input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%; background: var(--gold); margin-top: -5px; cursor: pointer; }
 
-        /* Session Table */
         table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.95rem; }
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); }
         th { color: var(--gold); text-transform: uppercase; font-size: 0.8rem; background: rgba(0,0,0,0.3); }
@@ -198,17 +136,19 @@
                 </div>
             </div>
         </div>
-        <div class="profile-card">
-            <div class="profile-info">
-                <div class="profile-name">Jay RyRone</div>
-                <div class="profile-id">ID: DRDXBBER-001</div>
-                <div class="bankroll-display" id="ui-bankroll">$10,000</div>
+        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
+            <div class="profile-card">
+                <div class="profile-info">
+                    <div class="profile-name" id="ui-profile-name">Loading...</div>
+                    <div class="profile-id">VIP TERMINAL SECURE</div>
+                    <div class="bankroll-display" id="ui-bankroll">$0</div>
+                </div>
             </div>
+            <button class="btn-text" onclick="switchView('account', 'login')">Switch VIP Profile</button>
         </div>
     </header>
 
     <div id="view-dashboard" class="view-section active dashboard-grid">
-        
         <div class="glass-panel">
             <h2>Roulette Engine</h2>
             <div class="input-group">
@@ -279,84 +219,190 @@
     </div>
 
     <div id="view-account" class="view-section">
-        <div class="glass-panel" style="max-width: 800px; margin: 0 auto;">
-            <h2>Bankroll Management</h2>
-            
-            <div class="data-row" style="grid-template-columns: 1fr 2fr;">
-                <div class="data-box" style="border-color: var(--neon-purple);">
-                    <label>Current Session PnL</label>
-                    <div class="data-value" id="acc-current-pnl" style="color: var(--text-main);">$0</div>
-                </div>
-                
-                <div style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; border: 1px solid var(--gold-dim);">
-                    <label>Start New Session (Set Balance)</label>
-                    <div style="display: flex; gap: 12px; margin-top: 8px;">
-                        <input type="number" id="new-balance-input" placeholder="Enter new bankroll..." style="margin: 0;">
-                        <button class="btn-action" onclick="logAndResetSession()">Log Session & Reset</button>
+        
+        <div class="glass-panel" style="max-width: 800px; margin: 0 auto 24px auto; padding: 12px 24px;">
+            <div class="nav-tabs" style="justify-content: center;">
+                <button class="tab-btn active" onclick="switchAccountSubView('manage')" id="btn-sub-manage">Manage Bankroll</button>
+                <button class="tab-btn" onclick="switchAccountSubView('login')" id="btn-sub-login">Switch Profile</button>
+            </div>
+        </div>
+
+        <div id="subview-manage" class="account-subview active" style="max-width: 800px; margin: 0 auto;">
+            <div class="glass-panel" style="margin-bottom: 24px;">
+                <h2>Bankroll Management</h2>
+                <div class="data-row" style="grid-template-columns: 1fr 2fr;">
+                    <div class="data-box" style="border-color: var(--neon-purple);">
+                        <label>Current Session PnL</label>
+                        <div class="data-value" id="acc-current-pnl" style="color: var(--text-main);">$0</div>
                     </div>
-                    <p style="font-size: 0.8rem; color: var(--text-muted); margin: 8px 0 0 0;">
-                        This will log your current session profit/loss to the history below and start fresh.
-                    </p>
+                    
+                    <div style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; border: 1px solid var(--gold-dim);">
+                        <label>Start New Session (Set Balance)</label>
+                        <div style="display: flex; gap: 12px; margin-top: 8px;">
+                            <input type="number" id="new-balance-input" placeholder="Enter new bankroll..." style="margin: 0;">
+                            <button class="btn-action" onclick="logAndResetSession()">Log Session & Reset</button>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 32px; color: var(--gold); border-bottom: 1px solid var(--gold-dim); padding-bottom: 8px;">Session History Log</h3>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date & Time</th>
+                                <th>Starting Balance</th>
+                                <th>Ending Balance</th>
+                                <th>Net Profit / Loss</th>
+                            </tr>
+                        </thead>
+                        <tbody id="session-history-body"></tbody>
+                    </table>
                 </div>
             </div>
+            
+            <div class="glass-panel">
+                <h2>Account Settings</h2>
+                <div style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; border: 1px solid var(--gold-dim);">
+                    <label>Update Display Name</label>
+                    <div style="display: flex; gap: 12px; margin-top: 8px;">
+                        <input type="text" id="new-name-input" placeholder="Enter new name..." style="margin: 0;">
+                        <button class="btn-action" onclick="changeAccountName()">Save Name</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            <h3 style="margin-top: 32px; color: var(--gold); border-bottom: 1px solid var(--gold-dim); padding-bottom: 8px;">Session History Log</h3>
-            <div style="overflow-x: auto;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date & Time</th>
-                            <th>Starting Balance</th>
-                            <th>Ending Balance</th>
-                            <th>Net Profit / Loss</th>
-                        </tr>
-                    </thead>
-                    <tbody id="session-history-body">
-                        </tbody>
-                </table>
+        <div id="subview-login" class="account-subview" style="max-width: 500px; margin: 0 auto;">
+            <div class="glass-panel" style="text-align: center;">
+                <h2>Switch VIP Profile</h2>
+                <p style="color: var(--text-muted); margin-bottom: 24px;">Enter a VIP ID or Username to load an existing profile or create a new one. Your current session will be saved automatically.</p>
+                
+                <div class="input-group" style="text-align: left;">
+                    <label>Username / VIP ID</label>
+                    <input type="text" id="login-username" placeholder="e.g. DrDxbber" onkeypress="handleLoginEnter(event)">
+                </div>
+                <button class="btn-action" style="width: 100%; margin-top: 10px; padding: 16px; font-size: 1.1rem;" onclick="attemptLogin()">Access Secure Terminal</button>
             </div>
         </div>
     </div>
 
     <script>
         /**
-         * STATE MANAGEMENT
+         * STATE MANAGEMENT & AUTHENTICATION
          */
-        let state = JSON.parse(localStorage.getItem('drDxbberState')) || {
+        let currentUser = "Guest";
+        let state = {};
+
+        const defaultState = {
+            accountName: "Guest",
             bankroll: 10000,
             sessionStartBankroll: 10000,
             rStreak: 0,
             bjRunning: 0,
             bjDecks: 6,
-            history: [] // Array of session objects
+            history: []
         };
 
+        // --- INITIALIZATION ---
+        window.onload = () => {
+            // Check if there was a user logged in previously
+            const savedLastUser = localStorage.getItem('diamondSuite_lastUser');
+            if (savedLastUser) {
+                currentUser = savedLastUser;
+            }
+            loadUserData(currentUser);
+        };
+
+        function loadUserData(username) {
+            currentUser = username;
+            localStorage.setItem('diamondSuite_lastUser', currentUser); // Remember for next refresh
+            
+            const storageKey = 'diamondSuite_' + currentUser.toLowerCase();
+            const savedData = localStorage.getItem(storageKey);
+            
+            if (savedData) {
+                state = JSON.parse(savedData);
+            } else {
+                // Create new default state for this user
+                state = JSON.parse(JSON.stringify(defaultState));
+                state.accountName = currentUser;
+            }
+
+            // Sync UI to new state
+            updateUI();
+            updateAccountView();
+            updateRouletteUI();
+            
+            document.getElementById('bj-decks').value = state.bjDecks;
+            calculateTrueCount();
+            calculatePoker();
+        }
+
         function saveState() {
-            localStorage.setItem('drDxbberState', JSON.stringify(state));
+            if (!currentUser) return;
+            const storageKey = 'diamondSuite_' + currentUser.toLowerCase();
+            localStorage.setItem(storageKey, JSON.stringify(state));
             updateUI();
         }
+
+        // --- LOGIN LOGIC (Sub-Tab) ---
+        function handleLoginEnter(event) {
+            if (event.key === "Enter") attemptLogin();
+        }
+
+        function attemptLogin() {
+            const usernameInput = document.getElementById('login-username').value.trim();
+            if (usernameInput === "") return alert("Please enter a username or VIP ID.");
+
+            // Save current user before switching
+            saveState();
+
+            // Load new user
+            loadUserData(usernameInput);
+            
+            // Clean up UI
+            document.getElementById('login-username').value = '';
+            switchView('dashboard'); // Kick them back to the main dashboard
+            alert(`Terminal Access Granted: Welcome, ${usernameInput}`);
+        }
+
 
         // ==========================================
         // UI & NAVIGATION
         // ==========================================
-        function switchView(viewName) {
-            // Toggle Tabs
+        function switchView(mainView, subView = null) {
+            // Main Tabs
             document.getElementById('btn-dashboard').classList.remove('active');
             document.getElementById('btn-account').classList.remove('active');
-            document.getElementById('btn-' + viewName).classList.add('active');
+            document.getElementById('btn-' + mainView).classList.add('active');
 
-            // Toggle Content
+            // Main Views
             document.getElementById('view-dashboard').classList.remove('active');
             document.getElementById('view-account').classList.remove('active');
-            document.getElementById('view-' + viewName).classList.add('active');
+            document.getElementById('view-' + mainView).classList.add('active');
 
-            if(viewName === 'account') updateAccountView();
+            // Handle Sub-view routing if provided
+            if(mainView === 'account') {
+                updateAccountView();
+                if(subView) switchAccountSubView(subView);
+            }
+        }
+
+        function switchAccountSubView(subView) {
+            document.getElementById('btn-sub-manage').classList.remove('active');
+            document.getElementById('btn-sub-login').classList.remove('active');
+            document.getElementById('btn-sub-' + subView).classList.add('active');
+
+            document.getElementById('subview-manage').classList.remove('active');
+            document.getElementById('subview-login').classList.remove('active');
+            document.getElementById('subview-' + subView).classList.add('active');
         }
 
         function updateUI() {
             document.getElementById('ui-bankroll').innerText = `$${state.bankroll.toLocaleString()}`;
+            document.getElementById('ui-profile-name').innerText = state.accountName;
             
-            // Calculate Current PnL
             const pnl = state.bankroll - state.sessionStartBankroll;
             const pnlEl = document.getElementById('acc-current-pnl');
             pnlEl.innerText = pnl >= 0 ? `+$${pnl.toLocaleString()}` : `-$${Math.abs(pnl).toLocaleString()}`;
@@ -366,57 +412,46 @@
         // ==========================================
         // ACCOUNT & LOGS LOGIC
         // ==========================================
+        function changeAccountName() {
+            const newName = document.getElementById('new-name-input').value.trim();
+            if (newName === "") return alert("Please enter a valid name.");
+            state.accountName = newName;
+            document.getElementById('new-name-input').value = '';
+            saveState();
+        }
+
         function logAndResetSession() {
             const inputVal = document.getElementById('new-balance-input').value;
             const newBalance = parseFloat(inputVal);
-            
-            if (isNaN(newBalance) || newBalance < 0) {
-                alert("Please enter a valid positive number for your new bankroll.");
-                return;
-            }
+            if (isNaN(newBalance) || newBalance < 0) return alert("Please enter a valid positive number.");
 
-            // Record current session if there was any change
             const pnl = state.bankroll - state.sessionStartBankroll;
             if (pnl !== 0 || state.history.length === 0) {
                 state.history.unshift({
                     date: new Date().toLocaleString(),
-                    start: state.sessionStartBankroll,
-                    end: state.bankroll,
-                    pnl: pnl
+                    start: state.sessionStartBankroll, end: state.bankroll, pnl: pnl
                 });
             }
 
-            // Reset state variables for new session
-            state.bankroll = newBalance;
-            state.sessionStartBankroll = newBalance;
-            state.rStreak = 0;
-            state.bjRunning = 0;
-            state.bjDecks = 6;
+            state.bankroll = newBalance; state.sessionStartBankroll = newBalance;
+            state.rStreak = 0; state.bjRunning = 0; state.bjDecks = 6;
             
             document.getElementById('new-balance-input').value = '';
-            
-            saveState();
-            updateAccountView();
-            resetRoulette();
-            resetShoe();
+            saveState(); updateAccountView(); resetRoulette(); resetShoe();
             alert("New session started! Bankroll updated to $" + newBalance.toLocaleString());
         }
 
         function updateAccountView() {
             const tbody = document.getElementById('session-history-body');
-            tbody.innerHTML = ''; // Clear current rows
-
+            tbody.innerHTML = ''; 
             if (state.history.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color: var(--text-muted);">No recorded sessions yet. Play some hands and log a session!</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color: var(--text-muted);">No recorded sessions yet.</td></tr>';
                 return;
             }
-
-            // Populate table
             state.history.forEach(session => {
                 const tr = document.createElement('tr');
                 const pnlClass = session.pnl > 0 ? 'pos-pnl' : (session.pnl < 0 ? 'neg-pnl' : '');
                 const pnlText = session.pnl >= 0 ? `+$${session.pnl.toLocaleString()}` : `-$${Math.abs(session.pnl).toLocaleString()}`;
-                
                 tr.innerHTML = `
                     <td style="color: var(--text-muted); font-size: 0.85rem;">${session.date}</td>
                     <td>$${session.start.toLocaleString()}</td>
@@ -428,14 +463,12 @@
         }
 
         // ==========================================
-        // ROULETTE LOGIC (Dashboard)
+        // GAME LOGIC (Roulette, Blackjack, Poker)
         // ==========================================
         function getRouletteBet() {
             const base = parseInt(document.getElementById('r-base-bet').value);
             let bet = base * Math.pow(2, state.rStreak);
-            if (state.rStreak >= 5) {
-                bet = base * (Math.pow(2, state.rStreak) - 1);
-            }
+            if (state.rStreak >= 5) bet = base * (Math.pow(2, state.rStreak) - 1);
             return bet;
         }
 
@@ -453,49 +486,31 @@
             const betAmount = getRouletteBet();
             if (result === 'W') { state.bankroll += betAmount; state.rStreak = 0; } 
             else { state.bankroll -= betAmount; state.rStreak++; }
-            saveState();
-            updateRouletteUI();
+            saveState(); updateRouletteUI();
         }
 
-        function resetRoulette() {
-            state.rStreak = 0;
-            saveState();
-            updateRouletteUI();
-        }
+        function resetRoulette() { state.rStreak = 0; saveState(); updateRouletteUI(); }
 
         document.addEventListener('keydown', (e) => {
-            if (document.activeElement.tagName === 'INPUT') return; 
+            if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT') return; 
             if (e.key.toLowerCase() === 'w') handleRoulette('W');
             if (e.key.toLowerCase() === 'l') handleRoulette('L');
         });
 
-        // ==========================================
-        // BLACKJACK LOGIC (Dashboard)
-        // ==========================================
-        function updateCount(val) {
-            state.bjRunning += val;
-            saveState();
-            calculateTrueCount();
-        }
+        function updateCount(val) { state.bjRunning += val; saveState(); calculateTrueCount(); }
 
         function calculateTrueCount() {
             state.bjDecks = parseFloat(document.getElementById('bj-decks').value);
             document.getElementById('bj-deck-val').innerText = state.bjDecks.toFixed(1);
             document.getElementById('bj-running').innerText = state.bjRunning;
-            
-            let trueCount = (state.bjRunning / state.bjDecks).toFixed(1);
-            document.getElementById('bj-true').innerText = trueCount;
+            document.getElementById('bj-true').innerText = (state.bjRunning / state.bjDecks).toFixed(1);
             saveState();
         }
 
         function resetShoe() {
-            state.bjRunning = 0;
-            state.bjDecks = 6;
-            document.getElementById('bj-decks').value = 6;
-            saveState();
-            calculateTrueCount();
-            document.getElementById('bj-player').value = '';
-            document.getElementById('bj-dealer').value = '';
+            state.bjRunning = 0; state.bjDecks = 6; document.getElementById('bj-decks').value = 6;
+            saveState(); calculateTrueCount();
+            document.getElementById('bj-player').value = ''; document.getElementById('bj-dealer').value = '';
             adviseStrategy();
         }
 
@@ -503,13 +518,9 @@
             const p = parseInt(document.getElementById('bj-player').value);
             const d = parseInt(document.getElementById('bj-dealer').value);
             const out = document.getElementById('bj-advisor-out');
-
             if (!p || !d || p < 5 || p > 21 || d < 2 || d > 11) {
-                out.innerText = "AWAITING INPUT";
-                out.style.color = "var(--text-muted)";
-                return;
+                out.innerText = "AWAITING INPUT"; out.style.color = "var(--text-muted)"; return;
             }
-
             let action = "HIT";
             if (p >= 17) action = "STAND";
             else if (p >= 13 && p <= 16) action = (d >= 2 && d <= 6) ? "STAND" : "HIT";
@@ -517,61 +528,31 @@
             else if (p === 11) action = "DOUBLE";
             else if (p === 10) action = (d >= 2 && d <= 9) ? "DOUBLE" : "HIT";
             else if (p === 9) action = (d >= 3 && d <= 6) ? "DOUBLE" : "HIT";
-
             out.innerText = action;
             if (action === "STAND") out.style.color = "var(--danger)";
             if (action === "HIT") out.style.color = "var(--success)";
             if (action === "DOUBLE") out.style.color = "var(--gold)";
         }
 
-        // ==========================================
-        // POKER LOGIC (Dashboard)
-        // ==========================================
         function calculatePoker() {
             const pot = parseFloat(document.getElementById('p-pot').value) || 0;
             const call = parseFloat(document.getElementById('p-call').value) || 0;
             const outs = parseInt(document.getElementById('p-outs').value) || 0;
-
             if (pot === 0 && call === 0) return;
-
             const potOdds = (call / (pot + call)) * 100;
             const equity = Math.min(outs * 4, 100);
-
             document.getElementById('p-odds-out').innerText = potOdds.toFixed(1) + '%';
             document.getElementById('p-equity-out').innerText = equity.toFixed(1) + '%';
-
             const box = document.getElementById('p-decision-box');
             const text = document.getElementById('p-decision-text');
-
             if (equity > potOdds) {
-                text.innerText = "+EV CALL";
-                text.style.color = "var(--success)";
-                box.style.borderColor = "var(--success)";
-                box.style.backgroundColor = "rgba(34, 197, 94, 0.1)";
+                text.innerText = "+EV CALL"; text.style.color = "var(--success)";
+                box.style.borderColor = "var(--success)"; box.style.backgroundColor = "rgba(34, 197, 94, 0.1)";
             } else {
-                text.innerText = "-EV FOLD";
-                text.style.color = "var(--danger)";
-                box.style.borderColor = "var(--danger)";
-                box.style.backgroundColor = "rgba(239, 68, 68, 0.1)";
+                text.innerText = "-EV FOLD"; text.style.color = "var(--danger)";
+                box.style.borderColor = "var(--danger)"; box.style.backgroundColor = "rgba(239, 68, 68, 0.1)";
             }
         }
-
-        // ==========================================
-        // INITIALIZATION
-        // ==========================================
-        window.onload = () => {
-            // Ensure state variables exist if migrating from old version
-            if (state.sessionStartBankroll === undefined) state.sessionStartBankroll = state.bankroll;
-            if (state.history === undefined) state.history = [];
-            
-            saveState(); 
-            updateRouletteUI();
-            updateAccountView();
-            document.getElementById('bj-decks').value = state.bjDecks;
-            calculateTrueCount();
-            calculatePoker();
-        };
-
     </script>
 </body>
 </html>
