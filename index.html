@@ -136,8 +136,8 @@
             
             <div id="form-login" class="auth-form active">
                 <div class="input-group">
-                    <label>Email</label>
-                    <input type="email" id="login-email" placeholder="vip@diamond.com">
+                    <label>Username</label>
+                    <input type="text" id="login-username" placeholder="e.g. DrDxbber">
                 </div>
                 <div class="input-group">
                     <label>Password</label>
@@ -149,8 +149,8 @@
 
             <div id="form-register" class="auth-form">
                 <div class="input-group">
-                    <label>Email</label>
-                    <input type="email" id="reg-email" placeholder="vip@diamond.com">
+                    <label>Username</label>
+                    <input type="text" id="reg-username" placeholder="Choose a username">
                 </div>
                 <div class="input-group">
                     <label>Password</label>
@@ -177,7 +177,7 @@
                 <div class="profile-card">
                     <div class="profile-info">
                         <div class="profile-name" id="ui-profile-name">User</div>
-                        <div class="profile-id" id="ui-profile-email">EMAIL</div>
+                        <div class="profile-id" id="ui-profile-username">USERNAME</div>
                         <div class="bankroll-display" id="ui-bankroll">$0</div>
                     </div>
                 </div>
@@ -310,7 +310,7 @@
         const DB_KEY = 'diamondSuite_UsersDB';
         
         let usersDB = JSON.parse(localStorage.getItem(DB_KEY)) || {};
-        let activeUserEmail = null;
+        let activeUsername = null;
         let state = {}; 
 
         const defaultState = {
@@ -338,50 +338,50 @@
         }
 
         function handleRegister() {
-            const email = document.getElementById('reg-email').value.trim().toLowerCase();
+            const username = document.getElementById('reg-username').value.trim().toLowerCase();
             const password = document.getElementById('reg-password').value;
 
-            if (!email || !password) return alert("Please fill out all fields.");
-            if (usersDB[email]) return alert("An account with this email already exists.");
+            if (!username || !password) return alert("Please fill out all fields.");
+            if (usersDB[username]) return alert("An account with this username already exists.");
 
-            usersDB[email] = {
+            usersDB[username] = {
                 password: password, 
                 gameData: JSON.parse(JSON.stringify(defaultState))
             };
             saveDB();
             
             alert("VIP Account created successfully! Logging you in...");
-            activeUserEmail = email;
+            activeUsername = username;
             loadUserData();
             showApp();
         }
 
         function handleLogin() {
-            const email = document.getElementById('login-email').value.trim().toLowerCase();
+            const username = document.getElementById('login-username').value.trim().toLowerCase();
             const password = document.getElementById('login-password').value;
 
-            if (!email || !password) return alert("Please enter email and password.");
+            if (!username || !password) return alert("Please enter username and password.");
             
-            const userRecord = usersDB[email];
+            const userRecord = usersDB[username];
             if (!userRecord || userRecord.password !== password) {
-                return alert("Invalid email or password.");
+                return alert("Invalid username or password.");
             }
 
-            activeUserEmail = email;
+            activeUsername = username;
             loadUserData();
             showApp();
         }
 
         function handleLogout() {
             saveStateToDB(); 
-            activeUserEmail = null;
+            activeUsername = null;
             state = {};
             
             // Clear inputs & toggle views strictly back to Gateway
             document.getElementById('login-password').value = '';
-            document.getElementById('login-email').value = '';
+            document.getElementById('login-username').value = '';
             document.getElementById('reg-password').value = '';
-            document.getElementById('reg-email').value = '';
+            document.getElementById('reg-username').value = '';
             
             document.getElementById('app-wrapper').style.display = 'none';
             document.getElementById('auth-gateway').style.display = 'flex';
@@ -389,7 +389,13 @@
 
         // --- DATA MANAGEMENT ---
         function loadUserData() {
-            state = usersDB[activeUserEmail].gameData;
+            state = usersDB[activeUsername].gameData;
+            
+            // If the user hasn't set a custom display name yet, default to their username
+            if (state.displayName === "New VIP") {
+                state.displayName = activeUsername.charAt(0).toUpperCase() + activeUsername.slice(1);
+            }
+            
             updateUI();
             updateRouletteUI();
             document.getElementById('bj-decks').value = state.bjDecks;
@@ -402,8 +408,8 @@
         }
 
         function saveStateToDB() {
-            if (!activeUserEmail) return;
-            usersDB[activeUserEmail].gameData = state;
+            if (!activeUsername) return;
+            usersDB[activeUsername].gameData = state;
             saveDB();
             updateUI();
         }
@@ -430,10 +436,10 @@
         }
 
         function updateUI() {
-            if (!activeUserEmail) return;
+            if (!activeUsername) return;
             document.getElementById('ui-bankroll').innerText = `$${state.bankroll.toLocaleString()}`;
             document.getElementById('ui-profile-name').innerText = state.displayName;
-            document.getElementById('ui-profile-email').innerText = activeUserEmail;
+            document.getElementById('ui-profile-username').innerText = "ID: " + activeUsername;
             
             const pnl = state.bankroll - state.sessionStartBankroll;
             const pnlEl = document.getElementById('acc-current-pnl');
@@ -506,7 +512,7 @@
         }
 
         function updateRouletteUI() {
-            if (!activeUserEmail) return;
+            if (!activeUsername) return;
             const currentBet = getRouletteBet();
             const betEl = document.getElementById('r-current-bet');
             betEl.innerText = `$${currentBet.toLocaleString()}`;
@@ -526,7 +532,7 @@
         function resetRoulette() { state.rStreak = 0; saveStateToDB(); updateRouletteUI(); }
 
         document.addEventListener('keydown', (e) => {
-            if (!activeUserEmail || document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT') return; 
+            if (!activeUsername || document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT') return; 
             if (e.key.toLowerCase() === 'w') playRoulette('W');
             if (e.key.toLowerCase() === 'l') playRoulette('L');
         });
