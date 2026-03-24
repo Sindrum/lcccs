@@ -8,6 +8,7 @@
         /* === CSS VARIABLES & THEME === */
         :root {
             --bg-base: #0a0a0c;
+            --sidebar-bg: #121216; /* Deep solid charcoal */
             --neon-purple: #6a1b9a;
             --purple-glow: rgba(106, 27, 154, 0.4);
             --gold: #d4af37;
@@ -16,7 +17,6 @@
             --text-muted: #a1a1aa;
             --danger: #ef4444;
             --success: #22c55e;
-            --sidebar-bg: #121216; /* Solid background to prevent bleed-through */
             --glass-panel: rgba(20, 20, 24, 0.8);
             --input-bg: rgba(255, 255, 255, 0.05);
             --sidebar-width: 260px;
@@ -53,22 +53,20 @@
             padding-right: 40px;
         }
 
-        select:focus, input:focus {
-            border-color: var(--gold);
-            box-shadow: 0 0 10px var(--purple-glow);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        /* === SIDEBAR SYSTEM === */
+        /* === SIDEBAR SYSTEM (FIXED FOR BLEED-THROUGH) === */
         #side-nav {
-            position: fixed; top: 0; left: 0; height: 100%;
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            height: 100%;
             width: var(--sidebar-collapsed);
-            background: var(--sidebar-bg);
+            background-color: #121216 !important; /* Forced solid color */
             border-right: 1px solid var(--gold-dim);
             transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 9999; /* Stay above browser sidebars and content */
+            z-index: 10000; /* Extremely high to block background elements */
             overflow: hidden;
-            box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+            box-shadow: 15px 0 35px rgba(0,0,0,0.8);
+            /* Removed backdrop-filter to prevent glass-bleed effects */
         }
 
         #side-nav:hover { width: var(--sidebar-width); }
@@ -77,6 +75,7 @@
             height: 70px; display: flex; align-items: center; padding: 0 22px;
             cursor: pointer; border-bottom: 1px solid var(--gold-dim); margin-bottom: 10px;
             white-space: nowrap;
+            background-color: #121216; /* Double-reinforce solid background */
         }
 
         .hamburger {
@@ -91,6 +90,7 @@
         .nav-content {
             opacity: 0.5; width: var(--sidebar-width);
             transition: opacity 0.3s; display: flex; flex-direction: column; height: calc(100% - 80px);
+            background-color: #121216; /* Reinforce solid color */
         }
 
         #side-nav:hover .nav-content { opacity: 1; }
@@ -115,7 +115,7 @@
         }
 
         #side-nav:hover ~ #main-content { 
-            filter: brightness(0.4); 
+            filter: brightness(0.3); 
             pointer-events: none; 
         }
 
@@ -127,13 +127,14 @@
 
         /* === AUTH GATEWAY === */
         #auth-gateway {
-            position: fixed; inset: 0; z-index: 10000; background: var(--bg-base);
+            position: fixed; inset: 0; z-index: 20000; background: var(--bg-base);
             display: flex; align-items: center; justify-content: center;
         }
 
         .auth-box {
             width: 400px; padding: 40px; text-align: center;
             border: 1px solid var(--gold);
+            background: #121216; /* Solid background for login box */
         }
 
         #app-wrapper { display: none; width: 100%; }
@@ -143,7 +144,6 @@
             margin-bottom: 30px; border-bottom: 1px solid var(--neon-purple); padding-bottom: 16px;
         }
 
-        /* === BUTTONS & DATA === */
         .btn-row { display: flex; gap: 12px; }
         button {
             flex: 1; background: linear-gradient(145deg, #1e1e24, #15151a); color: var(--text-main);
@@ -169,7 +169,7 @@
 
     <div id="auth-gateway">
         <div class="glass-panel auth-box">
-            <h1 style="font-size: 2rem; margin-bottom: 24px;">Diamond Casino <span style="color: var(--gold)">Suite</span></h1>
+            <h1 style="font-size: 2rem; margin-bottom: 24px; color: white;">Diamond Casino <span style="color: var(--gold)">Suite</span></h1>
             <div id="form-login" class="auth-form active">
                 <input type="text" id="login-username" placeholder="Username" style="margin-bottom:12px">
                 <input type="password" id="login-password" placeholder="Password" style="margin-bottom:12px">
@@ -382,7 +382,6 @@
         function save() { usersDB[activeUsername].gameData = state; localStorage.setItem(DB_KEY, JSON.stringify(usersDB)); }
         function handleLogout() { location.reload(); }
         
-        // Keyboard Support for Roulette
         document.addEventListener('keydown', (e) => {
             if (document.getElementById('view-roulette').classList.contains('active')) {
                 if (e.key.toLowerCase() === 'w') playRoulette('W');
