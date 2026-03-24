@@ -16,9 +16,10 @@
             --text-muted: #a1a1aa;
             --danger: #ef4444;
             --success: #22c55e;
-            --glass-bg: rgba(20, 20, 24, 0.85);
-            --sidebar-width: 240px;
-            --sidebar-collapsed: 12px;
+            --glass-bg: rgba(20, 20, 24, 0.95);
+            --input-bg: rgba(255, 255, 255, 0.05);
+            --sidebar-width: 260px;
+            --sidebar-collapsed: 60px; /* Widened to show icons/menu */
         }
 
         body {
@@ -26,11 +27,40 @@
             background-image: radial-gradient(circle at top left, var(--purple-glow), transparent 40%),
                               radial-gradient(circle at bottom right, rgba(212, 175, 55, 0.05), transparent 40%);
             color: var(--text-main); font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            min-height: 100vh; overflow-x: hidden; box-sizing: border-box;
-            display: flex;
+            min-height: 100vh; display: flex; overflow-x: hidden;
         }
 
-        /* === HOVER SIDEBAR SYSTEM === */
+        /* === CLEAN INPUT & SELECT STYLING === */
+        select, input[type="text"], input[type="password"], input[type="number"] {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--gold-dim);
+            border-radius: 8px;
+            color: var(--text-main);
+            padding: 12px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s ease;
+            appearance: none; /* Removes default white arrow in some browsers */
+            -webkit-appearance: none;
+        }
+
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23d4af37' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: calc(100% - 15px) center;
+            padding-right: 40px;
+        }
+
+        select:focus, input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 10px var(--purple-glow);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        ::placeholder { color: var(--text-muted); opacity: 0.6; }
+
+        /* === SIDEBAR WITH THREE LINES === */
         #side-nav {
             position: fixed; top: 0; left: 0; height: 100%;
             width: var(--sidebar-collapsed);
@@ -38,24 +68,35 @@
             border-right: 1px solid var(--gold-dim);
             transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1000; overflow: hidden;
-            display: flex; flex-direction: column;
         }
 
         #side-nav:hover { width: var(--sidebar-width); }
 
+        .menu-trigger {
+            height: 60px; display: flex; align-items: center; padding: 0 18px;
+            cursor: pointer; border-bottom: 1px solid var(--gold-dim); margin-bottom: 10px;
+        }
+
+        .hamburger {
+            width: 24px; height: 18px; display: flex; flex-direction: column; justify-content: space-between;
+        }
+
+        .hamburger span {
+            display: block; width: 100%; height: 2px; background: var(--gold); border-radius: 2px;
+        }
+
         .nav-content {
-            opacity: 0; width: var(--sidebar-width);
-            transition: opacity 0.2s; padding: 20px 0;
-            display: flex; flex-direction: column; height: 100%;
+            opacity: 0.4; width: var(--sidebar-width);
+            transition: opacity 0.3s; display: flex; flex-direction: column; height: calc(100% - 70px);
         }
 
         #side-nav:hover .nav-content { opacity: 1; }
 
         .nav-item {
-            padding: 15px 25px; cursor: pointer; color: var(--text-muted);
-            font-weight: bold; text-transform: uppercase; letter-spacing: 1px;
+            padding: 16px 20px; cursor: pointer; color: var(--text-muted);
+            font-weight: bold; text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem;
             transition: all 0.2s; border-left: 4px solid transparent;
-            display: flex; align-items: center; gap: 15px;
+            display: flex; align-items: center; white-space: nowrap;
         }
 
         .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--text-main); }
@@ -64,29 +105,24 @@
             border-left-color: var(--gold);
         }
 
-        /* === CONTENT AREA === */
+        /* === MAIN CONTENT AREA === */
         #main-content {
             flex: 1; margin-left: var(--sidebar-collapsed);
             padding: 40px; transition: filter 0.3s;
         }
 
-        #side-nav:hover ~ #main-content { filter: blur(4px) brightness(0.5); pointer-events: none; }
+        #side-nav:hover ~ #main-content { filter: blur(2px) brightness(0.7); pointer-events: none; }
 
         .glass-panel {
-            background: var(--glass-bg); backdrop-filter: blur(16px);
+            background: rgba(20, 20, 24, 0.7); backdrop-filter: blur(16px);
             border: 1px solid var(--gold-dim); border-radius: 16px; padding: 24px;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
         }
 
-        /* === AUTH & APP WRAPPERS === */
         #auth-gateway {
             position: fixed; inset: 0; z-index: 2000; background: var(--bg-base);
             display: flex; align-items: center; justify-content: center;
         }
-        .auth-box { max-width: 400px; width: 100%; text-align: center; }
-        .auth-form { display: none; }
-        .auth-form.active { display: block; }
-        .auth-toggle { color: var(--gold); cursor: pointer; font-size: 0.85rem; margin-top: 16px; display: inline-block; }
 
         #app-wrapper { display: none; width: 100%; }
 
@@ -95,104 +131,88 @@
             margin-bottom: 30px; border-bottom: 1px solid var(--neon-purple); padding-bottom: 16px;
         }
 
-        /* Keep existing formatting for buttons/tables/inputs */
         .btn-row { display: flex; gap: 12px; }
         button {
             flex: 1; background: linear-gradient(145deg, #1e1e24, #15151a); color: var(--text-main);
             border: 1px solid var(--gold-dim); padding: 12px; border-radius: 8px; cursor: pointer;
             font-weight: bold; transition: all 0.2s;
         }
-        button:hover { border-color: var(--gold); transform: translateY(-2px); box-shadow: 0 4px 12px var(--purple-glow); }
+        button:hover { border-color: var(--gold); transform: translateY(-2px); }
         .btn-win { border-color: var(--success); color: var(--success); }
         .btn-loss { border-color: var(--danger); color: var(--danger); }
-        .btn-action { background: var(--neon-purple); color: white; border-color: var(--gold); width: 100%; margin-top: 8px;}
-        .data-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-        .data-box { background: rgba(0,0,0,0.3); border-radius: 8px; padding: 12px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
-        .data-value { font-size: 1.5rem; font-weight: bold; color: var(--gold); }
-        .view-section { display: none; max-width: 1100px; margin: 0 auto; animation: fadeIn 0.4s ease; }
-        .view-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .btn-action { background: var(--neon-purple); color: white; border-color: var(--gold); margin-top: 8px;}
         
-        /* Profile UI */
-        .profile-card { text-align: right; border-right: 4px solid var(--gold); padding-right: 15px; }
-        .bankroll-display { font-size: 1.5rem; color: var(--success); font-weight: bold; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        th { color: var(--gold); font-size: 0.8rem; }
+        .data-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        .data-box { background: rgba(0,0,0,0.4); border-radius: 12px; padding: 16px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+        .data-value { font-size: 1.8rem; font-weight: bold; color: var(--gold); margin-top: 5px;}
+        
+        .view-section { display: none; max-width: 900px; margin: 0 auto; animation: fadeIn 0.4s ease; }
+        .view-section.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <div id="auth-gateway">
-        <div class="glass-panel auth-box">
-            <h1 style="color: var(--text-main)">Diamond Casino <span style="color: var(--gold)">Suite</span></h1>
-            <p style="color: var(--text-muted)">Pro-Tier Strategy Terminal</p>
+        <div class="glass-panel" style="width: 350px; text-align: center;">
+            <h1>Diamond Casino <span style="color: var(--gold)">Suite</span></h1>
             <div id="form-login" class="auth-form active">
-                <input type="text" id="login-username" placeholder="Username" style="margin-bottom:10px">
-                <input type="password" id="login-password" placeholder="Password" style="margin-bottom:10px">
-                <button class="btn-action" onclick="handleLogin()">Access Terminal</button>
-                <span class="auth-toggle" onclick="toggleAuth('register')">Request VIP Access</span>
-            </div>
-            <div id="form-register" class="auth-form">
-                <input type="text" id="reg-username" placeholder="Choose Username" style="margin-bottom:10px">
-                <input type="password" id="reg-password" placeholder="Choose Password" style="margin-bottom:10px">
-                <button class="btn-action" onclick="handleRegister()">Register Account</button>
-                <span class="auth-toggle" onclick="toggleAuth('login')">Return to Login</span>
+                <input type="text" id="login-username" placeholder="Username" style="margin-bottom:12px">
+                <input type="password" id="login-password" placeholder="Password" style="margin-bottom:12px">
+                <button class="btn-action" style="width:100%" onclick="handleLogin()">Access Terminal</button>
             </div>
         </div>
     </div>
 
     <div id="app-wrapper">
         <nav id="side-nav">
-            <div class="nav-content">
-                <div style="padding: 0 25px 20px; border-bottom: 1px solid var(--gold-dim); margin-bottom: 10px;">
-                    <h3 style="color: var(--gold); font-size: 0.9rem;">STRATEGY MENU</h3>
+            <div class="menu-trigger">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </div>
-                <div class="nav-item active" onclick="switchView('dashboard')" id="nav-dashboard">📊 Dashboard</div>
-                <div class="nav-item" onclick="switchView('roulette')" id="nav-roulette">🎡 Roulette</div>
-                <div class="nav-item" onclick="switchView('blackjack')" id="nav-blackjack">🃏 Blackjack</div>
-                <div class="nav-item" onclick="switchView('poker')" id="nav-poker">♠️ Hold'em</div>
-                <div class="nav-item" onclick="switchView('account')" id="nav-account" style="margin-top: auto;">⚙️ Account Settings</div>
-                <div class="nav-item" onclick="handleLogout()" style="color: var(--danger)">🔒 Logout</div>
+                <span style="color: var(--gold); font-weight: bold; margin-left: 20px; letter-spacing: 2px;">TERMINAL</span>
+            </div>
+            <div class="nav-content">
+                <div class="nav-item active" onclick="switchView('dashboard')" id="nav-dashboard">📊 DASHBOARD</div>
+                <div class="nav-item" onclick="switchView('roulette')" id="nav-roulette">🎡 ROULETTE</div>
+                <div class="nav-item" onclick="switchView('blackjack')" id="nav-blackjack">🃏 BLACKJACK</div>
+                <div class="nav-item" onclick="switchView('poker')" id="nav-poker">♠️ HOLD'EM</div>
+                <div class="nav-item" onclick="switchView('account')" id="nav-account" style="margin-top: auto;">⚙️ SETTINGS</div>
+                <div class="nav-item" onclick="handleLogout()" style="color: var(--danger)">🔒 LOGOUT</div>
             </div>
         </nav>
 
         <main id="main-content">
             <header class="glass-panel">
                 <div>
-                    <h1 id="view-title">Live Dashboard</h1>
-                    <div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 5px;">Active Session | ID: <span id="ui-profile-username"></span></div>
+                    <h1 id="view-title" style="margin:0; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px;">Live Dashboard</h1>
+                    <div id="ui-profile-username" style="color: var(--text-muted); font-size: 0.75rem;">ID: NO_AUTH</div>
                 </div>
-                <div class="profile-card">
-                    <div id="ui-profile-name" style="font-weight: bold; color: var(--gold)">User</div>
-                    <div class="bankroll-display" id="ui-bankroll">$0</div>
+                <div style="text-align: right;">
+                    <div id="ui-profile-name" style="font-weight: bold; color: var(--gold)">GUEST_USER</div>
+                    <div id="ui-bankroll" style="font-size: 1.4rem; color: var(--success); font-weight: bold;">$0</div>
                 </div>
             </header>
 
             <div id="view-dashboard" class="view-section active">
                 <div class="data-row" style="grid-template-columns: repeat(3, 1fr);">
-                    <div class="glass-panel data-box">
-                        <label>Roulette PnL</label>
-                        <div id="ui-r-pnl" class="data-value">$0</div>
-                    </div>
-                    <div class="glass-panel data-box">
-                        <label>Blackjack PnL</label>
-                        <div id="ui-bj-pnl" class="data-value">$0</div>
-                    </div>
-                    <div class="glass-panel data-box">
-                        <label>Poker PnL</label>
-                        <div id="ui-p-pnl" class="data-value">$0</div>
-                    </div>
+                    <div class="data-box"><label>Roulette</label><div id="ui-r-pnl" class="data-value">$0</div></div>
+                    <div class="data-box"><label>Blackjack</label><div id="ui-bj-pnl" class="data-value">$0</div></div>
+                    <div class="data-box"><label>Poker</label><div id="ui-p-pnl" class="data-value">$0</div></div>
                 </div>
-                <div class="glass-panel" style="margin-top: 24px;">
-                    <h2>Total Session PnL</h2>
-                    <div id="acc-current-pnl" style="font-size: 3rem; font-weight: bold;">$0</div>
+                <div class="glass-panel" style="text-align: center; margin-top: 20px;">
+                    <label style="color: var(--text-muted); text-transform: uppercase; font-size: 0.8rem;">Net Session Profit</label>
+                    <div id="acc-current-pnl" style="font-size: 3.5rem; font-weight: bold; margin-top: 10px;">$0</div>
                 </div>
             </div>
 
             <div id="view-roulette" class="view-section">
-                <div class="glass-panel" style="max-width: 500px; margin: 0 auto;">
-                    <h2>Roulette Engine</h2>
+                <div class="glass-panel" style="max-width: 450px; margin: 0 auto;">
+                    <h2 style="color: var(--gold); margin-bottom: 20px;">Roulette Engine</h2>
+                    <label>Base Unit</label>
                     <select id="r-base-bet" onchange="resetRoulette()" style="margin-bottom: 20px;">
                         <option value="50">$50 Unit</option>
                         <option value="100">$100 Unit</option>
@@ -200,11 +220,11 @@
                     </select>
                     <div class="data-row">
                         <div class="data-box"><label>Next Bet</label><div class="data-value" id="r-current-bet">$50</div></div>
-                        <div class="data-box"><label>Streak</label><div class="data-value" id="r-streak">0</div></div>
+                        <div class="data-box"><label>Loss Streak</label><div class="data-value" id="r-streak">0</div></div>
                     </div>
                     <div class="btn-row">
-                        <button class="btn-win" onclick="playRoulette('W')">WIN [W]</button>
-                        <button class="btn-loss" onclick="playRoulette('L')">LOSS [L]</button>
+                        <button class="btn-win" onclick="playRoulette('W')">WIN</button>
+                        <button class="btn-loss" onclick="playRoulette('L')">LOSS</button>
                     </div>
                 </div>
             </div>
@@ -212,10 +232,10 @@
             <div id="view-blackjack" class="view-section">
                 <div class="data-row">
                     <div class="glass-panel">
-                        <h2>Card Counter</h2>
+                        <h2 style="color: var(--gold)">Card Counter</h2>
                         <div class="data-row">
                             <div class="data-box"><label>Running</label><div class="data-value" id="bj-running">0</div></div>
-                            <div class="data-box"><label>True Count</label><div class="data-value" id="bj-true">0.0</div></div>
+                            <div class="data-box"><label>True</label><div class="data-value" id="bj-true">0.0</div></div>
                         </div>
                         <div class="btn-row">
                             <button onclick="updateCount(1)">+1</button>
@@ -224,110 +244,87 @@
                         </div>
                     </div>
                     <div class="glass-panel">
-                        <h2>Strategy Advisor</h2>
-                        <input type="number" id="bj-player" placeholder="Your Total" oninput="adviseStrategy()" style="margin-bottom: 10px;">
-                        <input type="number" id="bj-dealer" placeholder="Dealer Card" oninput="adviseStrategy()">
-                        <div id="bj-advisor-out" style="margin-top: 20px; font-size: 2rem; text-align: center; font-weight: bold;">AWAITING INPUT</div>
+                        <h2 style="color: var(--gold)">Advisor</h2>
+                        <div class="data-row">
+                            <input type="number" id="bj-player" placeholder="Your Total" oninput="adviseStrategy()">
+                            <input type="number" id="bj-dealer" placeholder="Dealer Up" oninput="adviseStrategy()">
+                        </div>
+                        <div id="bj-advisor-out" style="margin-top: 25px; font-size: 1.8rem; text-align: center; font-weight: bold; color: var(--text-muted);">AWAITING INPUT</div>
                     </div>
                 </div>
             </div>
 
             <div id="view-poker" class="view-section">
-                <div class="glass-panel" style="max-width: 600px; margin: 0 auto;">
-                    <h2>Hold'em Odds</h2>
+                <div class="glass-panel" style="max-width: 500px; margin: 0 auto;">
+                    <h2 style="color: var(--gold)">Hold'em Odds</h2>
                     <div class="data-row">
                         <input type="number" id="p-pot" placeholder="Pot Size" oninput="calculatePoker()">
                         <input type="number" id="p-call" placeholder="To Call" oninput="calculatePoker()">
                     </div>
-                    <input type="range" id="p-outs" min="0" max="22" value="9" oninput="calculatePoker()">
-                    <div class="data-row" style="margin-top: 20px;">
+                    <label style="margin-top: 15px; display: block;">Number of Outs</label>
+                    <input type="range" id="p-outs" min="0" max="22" value="9" oninput="calculatePoker()" style="width: 100%; margin: 15px 0;">
+                    <div class="data-row">
                         <div class="data-box"><label>Equity</label><div id="p-equity-out" class="data-value">0%</div></div>
-                        <div class="data-box" id="p-decision-box"><div id="p-decision-text">FOLD</div></div>
+                        <div class="data-box" id="p-decision-box" style="display: flex; align-items: center; justify-content: center;"><div id="p-decision-text" style="font-weight: bold;">FOLD</div></div>
                     </div>
-                </div>
-            </div>
-
-            <div id="view-account" class="view-section">
-                <div class="glass-panel">
-                    <h2>Session History</h2>
-                    <table>
-                        <thead><tr><th>Date</th><th>Roulette</th><th>BJ</th><th>Poker</th><th>Net</th></tr></thead>
-                        <tbody id="session-history-body"></tbody>
-                    </table>
                 </div>
             </div>
         </main>
     </div>
 
     <script>
-        // Existing Logic Integrated
         const DB_KEY = 'diamondSuite_UsersDB';
         let usersDB = JSON.parse(localStorage.getItem(DB_KEY)) || {};
         let activeUsername = null;
         let state = {}; 
 
         const defaultState = {
-            displayName: "New VIP", bankroll: 10000, sessionStartBankroll: 10000,
-            rStreak: 0, bjRunning: 0, bjDecks: 6,
-            roulettePnL: 0, blackjackPnL: 0, pokerPnL: 0, history: []
+            displayName: "VIP Player", bankroll: 10000, sessionStartBankroll: 10000,
+            rStreak: 0, bjRunning: 0, roulettePnL: 0, blackjackPnL: 0, pokerPnL: 0
         };
-
-        function toggleAuth(view) {
-            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
-            document.getElementById('form-' + view).classList.add('active');
-        }
 
         function handleLogin() {
             const user = document.getElementById('login-username').value.toLowerCase();
-            const pass = document.getElementById('login-password').value;
-            if (usersDB[user] && usersDB[user].password === pass) {
-                activeUsername = user;
-                loadUserData();
-                document.getElementById('auth-gateway').style.display = 'none';
-                document.getElementById('app-wrapper').style.display = 'flex';
-            } else alert("Invalid Login");
+            if(!user) return alert("Enter Username");
+            
+            if (!usersDB[user]) {
+                usersDB[user] = { password: "123", gameData: JSON.parse(JSON.stringify(defaultState)) };
+                localStorage.setItem(DB_KEY, JSON.stringify(usersDB));
+            }
+            
+            activeUsername = user;
+            state = usersDB[user].gameData;
+            document.getElementById('auth-gateway').style.display = 'none';
+            document.getElementById('app-wrapper').style.display = 'flex';
+            updateUI();
         }
-
-        function handleRegister() {
-            const user = document.getElementById('reg-username').value.toLowerCase();
-            const pass = document.getElementById('reg-password').value;
-            if(!user || !pass) return;
-            usersDB[user] = { password: pass, gameData: JSON.parse(JSON.stringify(defaultState)) };
-            localStorage.setItem(DB_KEY, JSON.stringify(usersDB));
-            handleLogin();
-        }
-
-        function handleLogout() { location.reload(); }
 
         function switchView(view) {
             document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById('view-' + view).classList.add('active');
             document.getElementById('nav-' + view).classList.add('active');
-            document.getElementById('view-title').innerText = view.charAt(0).toUpperCase() + view.slice(1);
-        }
-
-        function loadUserData() {
-            state = usersDB[activeUsername].gameData;
-            updateUI();
+            document.getElementById('view-title').innerText = view === 'dashboard' ? 'Live Dashboard' : view + ' Engine';
         }
 
         function updateUI() {
             document.getElementById('ui-bankroll').innerText = `$${state.bankroll.toLocaleString()}`;
-            document.getElementById('ui-profile-username').innerText = activeUsername;
+            document.getElementById('ui-profile-username').innerText = "ID: " + activeUsername.toUpperCase();
             document.getElementById('ui-r-pnl').innerText = `$${state.roulettePnL.toLocaleString()}`;
             document.getElementById('ui-bj-pnl').innerText = `$${state.blackjackPnL.toLocaleString()}`;
             document.getElementById('ui-p-pnl').innerText = `$${state.pokerPnL.toLocaleString()}`;
-            document.getElementById('acc-current-pnl').innerText = `$${(state.bankroll - state.sessionStartBankroll).toLocaleString()}`;
+            const net = state.bankroll - state.sessionStartBankroll;
+            const netEl = document.getElementById('acc-current-pnl');
+            netEl.innerText = (net >= 0 ? "+$" : "-$") + Math.abs(net).toLocaleString();
+            netEl.style.color = net >= 0 ? "var(--success)" : "var(--danger)";
         }
 
-        // Logic for games (Martingale, Counting, Odds) remains the same as your original code
         function playRoulette(res) {
             const base = parseInt(document.getElementById('r-base-bet').value);
             let bet = base * Math.pow(2, state.rStreak);
             if (res === 'W') { state.bankroll += bet; state.roulettePnL += bet; state.rStreak = 0; }
             else { state.bankroll -= bet; state.roulettePnL -= bet; state.rStreak++; }
-            saveState(); updateUI(); updateRouletteUI();
+            save(); updateUI(); updateRouletteUI();
         }
 
         function updateRouletteUI() {
@@ -336,7 +333,7 @@
             document.getElementById('r-streak').innerText = state.rStreak;
         }
 
-        function updateCount(val) { state.bjRunning += val; updateUI(); document.getElementById('bj-running').innerText = state.bjRunning; document.getElementById('bj-true').innerText = (state.bjRunning/6).toFixed(1); }
+        function updateCount(val) { state.bjRunning += val; document.getElementById('bj-running').innerText = state.bjRunning; document.getElementById('bj-true').innerText = (state.bjRunning/6).toFixed(1); save(); }
 
         function calculatePoker() {
             const pot = parseFloat(document.getElementById('p-pot').value) || 0;
@@ -346,14 +343,18 @@
             const odds = (call / (pot + call)) * 100;
             document.getElementById('p-equity-out').innerText = equity + "%";
             const res = document.getElementById('p-decision-text');
-            res.innerText = equity > odds ? "CALL (+EV)" : "FOLD (-EV)";
-            res.style.color = equity > odds ? "var(--success)" : "var(--danger)";
+            const box = document.getElementById('p-decision-box');
+            if (equity > odds) {
+                res.innerText = "CALL (+EV)"; res.style.color = "var(--success)";
+                box.style.background = "rgba(34, 197, 94, 0.1)";
+            } else {
+                res.innerText = "FOLD (-EV)"; res.style.color = "var(--danger)";
+                box.style.background = "rgba(239, 68, 68, 0.1)";
+            }
         }
 
-        function saveState() {
-            usersDB[activeUsername].gameData = state;
-            localStorage.setItem(DB_KEY, JSON.stringify(usersDB));
-        }
+        function save() { usersDB[activeUsername].gameData = state; localStorage.setItem(DB_KEY, JSON.stringify(usersDB)); }
+        function handleLogout() { location.reload(); }
     </script>
 </body>
 </html>
